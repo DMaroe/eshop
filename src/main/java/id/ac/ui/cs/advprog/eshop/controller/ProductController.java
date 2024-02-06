@@ -8,12 +8,12 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 @RequestMapping("/product")
 public class ProductController {
 
+    @Autowired
     private ProductService service;
 
     @GetMapping("/create")
