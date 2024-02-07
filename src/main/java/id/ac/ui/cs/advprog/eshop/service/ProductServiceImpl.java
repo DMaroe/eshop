@@ -16,9 +16,16 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public Product create(Product product) {
-        productRepository.create(product);
-        return product;
+    public Product createOrUpdate(Product product) {
+        if (product.getProductId() != null && !product.getProductId().isEmpty()) {
+            return productRepository.update(product.getProductId(), product);
+        } else {
+            return productRepository.create(product);
+        }
+    }
+    @Override
+    public boolean deleteById(String id) {
+        return productRepository.deleteById(id);
     }
 
     @Override
@@ -28,4 +35,14 @@ public class ProductServiceImpl implements ProductService {
         productIterator.forEachRemaining(allProduct::add);
         return allProduct;
     }
+    @Override
+    public Product findById(String id) {
+        return productRepository.findById(id);
+    }
+
+    @Override
+    public Product update(String id, Product product) {
+        return productRepository.update(id, product);
+    }
+
 }
