@@ -8,10 +8,10 @@ import java.util.List;
 @Repository
 public class ProductRepository {
     private List<Product> productData = new ArrayList<>();
-    private static long idCounter = 0; // Initialize ID counter
+    private static long idCounter = 0;
 
     public Product create(Product product) {
-        product.setProductId(String.valueOf(++idCounter)); // Increment and assign ID
+        product.setProductId(String.valueOf(++idCounter));
         productData.add(product);
         return product;
     }
@@ -36,6 +36,9 @@ public class ProductRepository {
             }
         }
         return null;
+    }
+    public boolean deleteById(String id) {
+        return productData.removeIf(product -> product.getProductId().equals(id));
     }
 
 }

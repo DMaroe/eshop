@@ -40,9 +40,9 @@ public class ProductController {
         Product product = service.findById(id);
         if (product != null) {
             model.addAttribute("product", product);
-            return "createProduct"; // Reuse createProduct template for editing
+            return "createProduct";
         }
-        return "redirect:/product/list"; // Redirect if product is not found
+        return "redirect:/product/list";
     }
 
     @PostMapping("/update/{id}")
@@ -50,5 +50,11 @@ public class ProductController {
         service.update(id, product);
         return "redirect:/product/list";
     }
+    @GetMapping("/delete/{id}")
+    public String deleteProduct(@PathVariable String id) {
+        service.deleteById(id);
+        return "redirect:/product/list";
+    }
+
 
 }
