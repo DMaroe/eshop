@@ -25,7 +25,7 @@ public class ProductController {
 
     @PostMapping("/create")
     public String createProductPost(@ModelAttribute Product product, Model model) {
-        service.create(product);
+        service.createOrUpdate(product);
         return "redirect:list";
     }
 
@@ -35,4 +35,20 @@ public class ProductController {
         model.addAttribute("products", allProducts);
         return "productList";
     }
+    @GetMapping("/edit/{id}")
+    public String editProductPage(@PathVariable String id, Model model) {
+        Product product = service.findById(id);
+        if (product != null) {
+            model.addAttribute("product", product);
+            return "createProduct"; // Reuse createProduct template for editing
+        }
+        return "redirect:/product/list"; // Redirect if product is not found
+    }
+
+    @PostMapping("/update/{id}")
+    public String updateProductPost(@PathVariable String id, @ModelAttribute Product product, Model model) {
+        service.update(id, product);
+        return "redirect:/product/list";
+    }
+
 }
