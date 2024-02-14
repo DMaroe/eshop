@@ -1,5 +1,6 @@
 plugins {
 	java
+	jacoco
 	id("org.springframework.boot") version "3.2.2"
 	id("io.spring.dependency-management") version "1.1.4"
 }
@@ -8,7 +9,7 @@ group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_17
 }
 
 configurations {
@@ -31,6 +32,16 @@ dependencies {
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
-tasks.withType<Test> {
+tasks.test {
 	useJUnitPlatform()
+	filter {
+		excludeTestsMatching("*FunctionalTest*")
+	}
+	finalizedBy("jacocoTestReport")
 }
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+	dependsOn(tasks.test)
+	// Additional configuration for the JaCoCo report can be added here
+}
+
