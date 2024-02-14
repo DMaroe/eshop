@@ -112,7 +112,7 @@ class ProductControllerTest {
 						.param("productName", "Updated Product")
 						.param("productQuantity", "15"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("list"));
+				.andExpect(redirectedUrl("/product/list"));
 
 		verify(productService).update(eq("1"), refEq(product));
 	}
@@ -122,7 +122,7 @@ class ProductControllerTest {
 	void whenDeleteProduct_thenProductIsDeleted() throws Exception {
 		mockMvc.perform(get("/product/delete/1"))
 				.andExpect(status().is3xxRedirection())
-				.andExpect(redirectedUrl("list"));
+				.andExpect(redirectedUrl("/product/list"));
 
 		verify(productService).deleteById("1");
 	}
