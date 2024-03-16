@@ -9,7 +9,7 @@ group = "id.ac.ui.cs.advprog"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_17
+	sourceCompatibility = JavaVersion.VERSION_21
 }
 
 configurations {
@@ -21,6 +21,11 @@ configurations {
 repositories {
 	mavenCentral()
 }
+
+val seleniumJavaVersion = "4.14.1"
+val seleniumJupiterVersion = "5.0.1"
+val webdrivermanagerVersion = "5.6.3"
+val junitJupiterVersion = "5.9.2"
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
@@ -36,19 +41,6 @@ dependencies {
 	testImplementation("org.junit.jupiter:junit-jupiter-api:$junitJupiterVersion")
 	testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:$junitJupiterVersion")
 
-}
-
-tasks.test {
-	useJUnitPlatform()
-	filter {
-		excludeTestsMatching("*FunctionalTest*")
-	}
-	finalizedBy("jacocoTestReport")
-}
-
-tasks.named<JacocoReport>("jacocoTestReport") {
-	dependsOn(tasks.test)
-	// Additional configuration for the JaCoCo report can be added here
 }
 
 tasks.register<Test>("unitTest"){
@@ -72,7 +64,19 @@ tasks.withType<Test>().configureEach {
 	useJUnitPlatform()
 }
 
-val seleniumJavaVersion = "4.14.1"
-val seleniumJupiterVersion = "5.0.1"
-val webdrivermanagerVersion = "5.6.3"
-val junitJupiterVersion = "5.9.1"
+tasks.test {
+
+	filter {
+		excludeTestsMatching("*FunctionalTest*")
+	}
+	finalizedBy("jacocoTestReport")
+}
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+	dependsOn(tasks.test)
+	// Additional configuration for the JaCoCo report can be added here
+}
+
+
+
+
